@@ -35,8 +35,10 @@ const UpdateMovie = ({movieList, setMovieList, getMovieList}) => {
             director: movies.director.trim(),
             metascore: movies.metascore,
             stars: movies.stars.split(',')
-        };
+        }
         const updateMovie = movieList.find(movie => movie.id === id);
+
+       
     
         axios.put(`http://localhost:5000/api/movies/${id}`,editMovie)
         .then(res => {
@@ -44,7 +46,7 @@ const UpdateMovie = ({movieList, setMovieList, getMovieList}) => {
                 history.push("/"); 
                 getMovieList();
             })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
     }
 
    
