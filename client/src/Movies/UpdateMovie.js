@@ -7,47 +7,44 @@ const initialValue = {
     title: '',
     director: '',
     metascore: '',
-    stars: [],
+    stars: '',
 }
 const UpdateMovie = ({movieList, setMovieList, getMovieList}) => {
     const {id} = useParams()
     const history = useHistory()
    
     
-    const [movie, setMovie] = useState(initialValue)
+    const [movies, setMovies] = useState(initialValue)
   
 
     useEffect(() => {
         axios.get(`http://localhost:5000/api/movies/${id}`)
-        .then(res => setMovie(res.data))
+        .then(res => setMovies(res.data))
         .catch(err => console.log(err))
     },[id])
 
     const changeHandler = e => {
-        setMovie({...movie,[e.target.name]:e.target.value})
+        setMovies({...movies,[e.target.name]:e.target.value})
     }
 
     const onSubmit = e => {
         e.preventDefault();
         const editMovie = {
             id: id,
-            title: movie.title.trim(),
-            director: movie.director.trim(),
-            metascore: movie.metascore,
-            stars: movie.stars
-        }
-
-        const updateMovie = movieList.find(movie => movie.id === id)
-        
+            title: movies.title.trim(),
+            director: movies.director.trim(),
+            metascore: movies.metascore,
+            stars: movies.stars.split(',')
+        };
+        const updateMovie = movieList.find(movie => movie.id === id);
     
-           
-            
-        
         axios.put(`http://localhost:5000/api/movies/${id}`,editMovie)
-        .then(res => {setMovieList[updateMovie] = res.date; history.push("/"); getMovieList()})
-        .catch(err => console.log(err))
-
-       
+        .then(res => {
+                setMovieList[updateMovie] = res.data; 
+                history.push("/"); 
+                getMovieList();
+            })
+        .catch(err => console.log(err));
     }
 
    
@@ -60,28 +57,28 @@ const UpdateMovie = ({movieList, setMovieList, getMovieList}) => {
                     name="title"
                     onChange={changeHandler}
                     placeholder="title"
-                    value={movie.title}
+                    value={movies.title}
                 />
                 <input
                     type="text"
                     name="director"
                     onChange={changeHandler}
                     placeholder="director"
-                    value={movie.director}
+                    value={movies.director}
                 />
                 <input
                     type="number"
                     name="metascore"
                     onChange={changeHandler}
                     placeholder="metascore"
-                    value={movie.metascore}
+                    value={movies.metascore}
                 />
                 <input
                     type="text"
                     name="stars"
                     onChange={changeHandler}
                     placeholder="stars"
-                    value={movie.stars}
+                    value={movies.stars}
                 />
                 <button>Submit</button>
             </form>

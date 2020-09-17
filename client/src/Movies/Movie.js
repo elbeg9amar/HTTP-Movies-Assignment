@@ -42,6 +42,7 @@ function Movie({ addToSavedList, getMovieList }) {
         <button className="save-button" onClick={saveMovie} >Save</button>
         <button onClick={() =>history.push(`/update-movie/${params.id}`)}>Edit</button>
         <button onClick={deleteMovie}>Delete</button>
+        <button onClick={() => history.push('/add-movie')}>Add Movie</button>
       </div>
     </div>
   );
